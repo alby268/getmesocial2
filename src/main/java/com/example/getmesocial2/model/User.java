@@ -1,12 +1,23 @@
 package com.example.getmesocial2.model;
 
+import com.example.getmesocial2.validation.ValidName;
 import org.springframework.data.annotation.Id;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 public class User {
     @Id
+
     private String id;
+
     private String name;
+
+
+    @Email
     private  String email;
+
+    @NotEmpty
     private String profilePhotoUrl;
 
     public String getId() {

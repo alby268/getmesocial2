@@ -33,8 +33,8 @@ public class PhotoService {
         photoRepository.deleteById(photoId);
     }
 
-    public List<Photo> getById(String photo) {
+    public List<Photo> getById(String id) {
 
-        return photoRepository.findAllById(photo);
+        return photoRepository.findAllById(id);
     }
 }

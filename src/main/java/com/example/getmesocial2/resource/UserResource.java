@@ -1,11 +1,17 @@
 package com.example.getmesocial2.resource;
 
+import com.example.getmesocial2.exception.RestrictedInfoException;
+import com.example.getmesocial2.exception.RestrictedNameException;
 import com.example.getmesocial2.model.User;
 import com.example.getmesocial2.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/users")
@@ -15,9 +21,17 @@ public class UserResource {
     private UserService userService;
 
     @PostMapping
-    public User saveUser(@RequestBody User user){
-        return userService.saveUser(user);
-    }
+    public User saveUser(@RequestBody @Valid User user) throws RestrictedNameException {
+        if(user.getName().equalsIgnoreCase("root")){
+            throw new RestrictedNameException();
+        }
+
+        else {
+
+            return userService.saveUser(user);
+        }
+        }
+
 
 
     @GetMapping
@@ -28,23 +42,29 @@ public class UserResource {
 
 
     @PutMapping
-    public User updateUser(@RequestBody User user){
+    public User updateUser(@RequestBody User user) {
 
         return userService.updateUserById(user);
     }
 
     @DeleteMapping
-    public void deleteUser(@RequestParam(name = "userId") String userId){
+    public void deleteUser(@RequestParam(name = "userId") String userId) {
 
-         userService.deleteUser(userId);
+        userService.deleteUser(userId);
     }
 
     @GetMapping("/find")
-    public List<User> getById(@RequestParam(name = "id") String id){
-
-      return  userService.getById(id);
+    public User getById(@RequestParam(name = "id") String id) throws RestrictedInfoException {
+        if(id.equalsIgnoreCase("abc")){
+            throw new RestrictedInfoException();
+        }
+        return userService.getById(id);
 
     }
+
+
+
+
 
 //    @GetMapping("/user")
 //    public User getUser() {

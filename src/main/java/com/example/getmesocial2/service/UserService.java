@@ -32,9 +32,9 @@ public class UserService {
          userRepository.deleteById(userId);
     }
 
-    public List<User> getById(String user) {
+    public User getById(String id) {
 
-      return userRepository.findAllById(user);
+      return userRepository.findById(id).get();
     }
 
 

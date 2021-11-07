@@ -33,8 +33,8 @@ public class CommentService {
         commentRepository.deleteById(commentId);
     }
 
-    public List<Comment> getById(String comment) {
+    public List<Comment> getById(String id) {
 
-        return commentRepository.findAllById(comment);
+        return commentRepository.findAllById(id);
     }
 }
