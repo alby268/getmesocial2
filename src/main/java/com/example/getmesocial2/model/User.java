@@ -1,37 +1,21 @@
 package com.example.getmesocial2.model;
 
+import org.springframework.data.annotation.Id;
+
 public class User {
-    private int userId;
+    @Id
+    private String id;
     private String name;
-    private String address;
+    private  String email;
+    private String profilePhotoUrl;
 
-    public int getUserId() {
-        return userId;
+    public String getId() {
+        return id;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setId(String id) {
+        this.id = id;
     }
-
-    private int age;
-    private String profilePicUrl;
-
-    public User(String name, String address, int age, String profilePicUrl) {
-        this.name = name;
-        this.address = address;
-        this.age = age;
-        this.profilePicUrl = profilePicUrl;
-    }
-
-    public String getProfilePicUrl() {
-        return profilePicUrl;
-    }
-
-    public void setProfilePicUrl(String profilePicUrl) {
-        this.profilePicUrl = profilePicUrl;
-    }
-
-
 
     public String getName() {
         return name;
@@ -41,21 +25,19 @@ public class User {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public int getAge() {
-        return age;
+    public String getProfilePhotoUrl() {
+        return profilePhotoUrl;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setProfilePhotoUrl(String profilePhotoUrl) {
+        this.profilePhotoUrl = profilePhotoUrl;
     }
-
-
 }

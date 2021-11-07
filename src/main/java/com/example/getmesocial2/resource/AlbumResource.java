@@ -1,6 +1,7 @@
 package com.example.getmesocial2.resource;
 
 import com.example.getmesocial2.model.Album;
+import com.example.getmesocial2.model.User;
 import com.example.getmesocial2.service.AlbumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -8,52 +9,42 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/albums")
 public class AlbumResource {
 
     @Autowired
-    private AlbumService AlbumService;
+    private AlbumService albumService;
 
-    @GetMapping("/Album1")
-    public Album getAlbum() {
-
-        return AlbumService.getAlbum();
-    }
-
-    @PostMapping("/album")
-    public Album saveAlbum(@RequestBody Album Album){
-        return AlbumService.saveAlbum(Album);
+    @PostMapping
+    public Album saveAlbum(@RequestBody Album album) {
+        return albumService.saveAlbum(album);
     }
 
 
-    @GetMapping("/album")
+    @GetMapping
     public List<Album> getAllAlbum() {
 
-        return AlbumService.getAllAlbum();
-    }
-
-    @GetMapping("/album/{albumId}")
-    public Album getAlbumById(@PathVariable("albumId") int albumId){
-
-        return AlbumService.getAlbumById(albumId);
+        return albumService.getAllAlbum();
     }
 
 
-    @PutMapping("/album/{albumId}")
-    public Album updateAlbum(@PathVariable("albumId") int albumId,@RequestBody Album Album){
+    @PutMapping
+    public Album updateAlbum(@RequestBody Album album) {
 
-        return AlbumService.updateAlbumById(albumId,Album);
+        return albumService.updateAlbumById(album);
     }
 
+    @DeleteMapping
+    public void deleteAlbum(@RequestParam(name = "albumId") String albumId) {
 
-    @DeleteMapping("/album")
-    public Album deleteAlbum(@RequestParam(name = "albumId") int albumId){
-
-        return AlbumService.deleteAlbum(albumId);
+        albumService.deleteAlbum(albumId);
     }
 
+    @GetMapping("/find")
+    public List<Album> getById(@RequestParam(name = "id") String id){
 
+        return  albumService.getById(id);
 
-
+    }
 
 }
