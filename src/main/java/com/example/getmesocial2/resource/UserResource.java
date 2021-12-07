@@ -2,14 +2,18 @@ package com.example.getmesocial2.resource;
 
 import com.example.getmesocial2.exception.RestrictedInfoException;
 import com.example.getmesocial2.exception.RestrictedNameException;
+import com.example.getmesocial2.model.FirebaseUser;
 import com.example.getmesocial2.model.User;
+import com.example.getmesocial2.service.FirebaseService;
 import com.example.getmesocial2.service.UserService;
+import com.google.firebase.auth.FirebaseAuthException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -20,15 +24,26 @@ public class UserResource {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private FirebaseService firebaseService;
+
     @PostMapping
-    public User saveUser(@RequestBody @Valid User user) throws RestrictedNameException {
+    public User saveUser(@RequestBody @Valid User user,@RequestHeader(name="idToken") String idToken) throws RestrictedNameException, IOException, FirebaseAuthException {
         if(user.getName().equalsIgnoreCase("root")){
             throw new RestrictedNameException();
         }
 
         else {
 
-            return userService.saveUser(user);
+            FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
+            if(firebaseUser!=null){
+                return userService.saveUser(user);
+
+            }
+            else
+                return null;
+
+
         }
         }
 
