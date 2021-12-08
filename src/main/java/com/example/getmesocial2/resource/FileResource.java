@@ -11,6 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.getmesocial2.service.FirebaseService;
+
+import com.example.getmesocial2.model.FirebaseUser;
+
+import com.google.firebase.auth.FirebaseAuthException;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -21,10 +27,24 @@ public class FileResource {
 
    @Autowired
    private FileService fileService;
-    @PostMapping
-    public boolean upload(@RequestParam(name="file")MultipartFile file){
 
-        return fileService.upload(file);
+
+    @Autowired
+    private FirebaseService firebaseService;
+    @PostMapping
+    public boolean upload(@RequestParam(name="file")MultipartFile file,
+
+                          @RequestHeader(name="idToken") String idToken) throws  IOException, FirebaseAuthException {
+
+        FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
+        if (firebaseUser != null) {
+            return fileService.upload(file);
+
+        }
+        else {
+            return false;
+        }
+
     }
 
     @GetMapping("/view")
@@ -50,10 +70,18 @@ public class FileResource {
     }
 
     @DeleteMapping
-    public void delete(@RequestParam(name = "key") String key) {
+    public void delete(@RequestParam(name = "key") String key,
+                       @RequestHeader(name="idToken") String idToken) throws  IOException, FirebaseAuthException {
 
-        fileService.deleteFile(key);
+        FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
+        if(firebaseUser!=null){
+            fileService.deleteFile(key);
+
+        }
+
     }
+
+
 
 
 }

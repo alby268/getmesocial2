@@ -57,16 +57,29 @@ public class UserResource {
 
 
     @PutMapping
-    public User updateUser(@RequestBody User user) {
+    public User updateUser(@RequestBody User user,@RequestHeader(name="idToken") String idToken) throws  IOException, FirebaseAuthException {
 
-        return userService.updateUserById(user);
+        FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
+        if(firebaseUser!=null){
+            return userService.updateUserById(user);
+
+        }
+        else
+            return null;
     }
 
     @DeleteMapping
-    public void deleteUser(@RequestParam(name = "userId") String userId) {
+    public void deleteUser(@RequestParam(name = "userId") String userId,@RequestHeader(name="idToken") String idToken) throws  IOException, FirebaseAuthException  {
 
-        userService.deleteUser(userId);
+        FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
+
+        if(firebaseUser!=null){
+            userService.deleteUser(userId);
+
+        }
+
     }
+
 
     @GetMapping("/find")
     public User getById(@RequestParam(name = "id") String id) throws RestrictedInfoException {
