@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
     }
 
 
-    @ExceptionHandler(RestrictedInfoException.class)
+    @ExceptionHandler(InvalidIdToken.class)
     public ResponseEntity<String> invalidTokenError(InvalidIdToken ex) {
 
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
