@@ -20,6 +20,16 @@ public class GlobalExceptionHandler {
     }
 
 
+    @ExceptionHandler(RestrictedInfoException.class)
+    public ResponseEntity<String> invalidTokenError(InvalidIdToken ex) {
+
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+//        return ex.getMessage();
+
+
+    }
+
+
     @ExceptionHandler(RestrictedNameException.class)
     public ResponseEntity<String> restrictedNameError(RestrictedNameException ex) {
 
@@ -30,11 +40,15 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<String>  noSuchElementError() {
+    public ResponseEntity<String> noSuchElementError() {
 
         return new ResponseEntity<>("No such element found", HttpStatus.CONFLICT);
 
 
-
     }
+
 }
+
+
+
+

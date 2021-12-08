@@ -19,6 +19,8 @@ import com.google.firebase.auth.FirebaseAuthException;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import com.example.getmesocial2.exception.InvalidIdToken;
+
 
 
 @RestController
@@ -34,7 +36,7 @@ public class FileResource {
     @PostMapping
     public boolean upload(@RequestParam(name="file")MultipartFile file,
 
-                          @RequestHeader(name="idToken") String idToken) throws  IOException, FirebaseAuthException {
+                          @RequestHeader(name="idToken") String idToken) throws  IOException, FirebaseAuthException ,InvalidIdToken{
 
         FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
         if (firebaseUser != null) {
@@ -42,7 +44,7 @@ public class FileResource {
 
         }
         else {
-            return false;
+            throw new InvalidIdToken();
         }
 
     }
@@ -71,13 +73,15 @@ public class FileResource {
 
     @DeleteMapping
     public void delete(@RequestParam(name = "key") String key,
-                       @RequestHeader(name="idToken") String idToken) throws  IOException, FirebaseAuthException {
+                       @RequestHeader(name="idToken") String idToken) throws  IOException, FirebaseAuthException,InvalidIdToken {
 
         FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
         if(firebaseUser!=null){
             fileService.deleteFile(key);
 
         }
+        else
+            throw new InvalidIdToken();
 
     }
 

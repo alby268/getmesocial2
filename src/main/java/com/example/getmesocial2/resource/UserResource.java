@@ -2,6 +2,8 @@ package com.example.getmesocial2.resource;
 
 import com.example.getmesocial2.exception.RestrictedInfoException;
 import com.example.getmesocial2.exception.RestrictedNameException;
+import com.example.getmesocial2.exception.InvalidIdToken;
+
 import com.example.getmesocial2.model.FirebaseUser;
 import com.example.getmesocial2.model.User;
 import com.example.getmesocial2.service.FirebaseService;
@@ -28,7 +30,7 @@ public class UserResource {
     private FirebaseService firebaseService;
 
     @PostMapping
-    public User saveUser(@RequestBody @Valid User user,@RequestHeader(name="idToken") String idToken) throws RestrictedNameException, IOException, FirebaseAuthException {
+    public User saveUser(@RequestBody @Valid User user,@RequestHeader(name="idToken") String idToken) throws RestrictedNameException,InvalidIdToken,IOException, FirebaseAuthException {
         if(user.getName().equalsIgnoreCase("root")){
             throw new RestrictedNameException();
         }
@@ -41,7 +43,7 @@ public class UserResource {
 
             }
             else
-                return null;
+                throw new InvalidIdToken();
 
 
         }
@@ -57,7 +59,7 @@ public class UserResource {
 
 
     @PutMapping
-    public User updateUser(@RequestBody User user,@RequestHeader(name="idToken") String idToken) throws  IOException, FirebaseAuthException {
+    public User updateUser(@RequestBody User user,@RequestHeader(name="idToken") String idToken) throws  IOException,InvalidIdToken, FirebaseAuthException {
 
         FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
         if(firebaseUser!=null){
@@ -65,11 +67,12 @@ public class UserResource {
 
         }
         else
-            return null;
+
+            throw new InvalidIdToken();
     }
 
     @DeleteMapping
-    public void deleteUser(@RequestParam(name = "userId") String userId,@RequestHeader(name="idToken") String idToken) throws  IOException, FirebaseAuthException  {
+    public void deleteUser(@RequestParam(name = "userId") String userId,@RequestHeader(name="idToken") String idToken) throws  IOException, FirebaseAuthException,InvalidIdToken {
 
         FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
 
@@ -77,6 +80,8 @@ public class UserResource {
             userService.deleteUser(userId);
 
         }
+        else
+            throw new InvalidIdToken();
 
     }
 

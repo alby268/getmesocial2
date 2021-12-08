@@ -13,7 +13,6 @@ public class Album {
     private String name;
     private String coverPhotoUrl;
 
-    @ValidName
     private String createdBy;
     private Date dateCreated;
 

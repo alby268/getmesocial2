@@ -10,6 +10,8 @@ import com.example.getmesocial2.service.FirebaseService;
 import com.example.getmesocial2.model.FirebaseUser;
 
 import com.google.firebase.auth.FirebaseAuthException;
+import com.example.getmesocial2.exception.InvalidIdToken;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -25,14 +27,14 @@ public class PhotoResource {
     private FirebaseService firebaseService;
 
     @PostMapping
-    public Photo savePhoto(@RequestBody Photo photo,@RequestHeader(name="idToken") String idToken) throws  IOException, FirebaseAuthException {
+    public Photo savePhoto(@RequestBody Photo photo,@RequestHeader(name="idToken") String idToken) throws  IOException, FirebaseAuthException,InvalidIdToken {
         FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
         if(firebaseUser!=null){
             return photoService.savePhoto(photo);
 
         }
         else
-            return null;
+            throw new InvalidIdToken();
     }
 
 
@@ -46,27 +48,29 @@ public class PhotoResource {
 
 
     @PutMapping
-    public Photo updatePhoto(@RequestBody Photo photo,@RequestHeader(name="idToken") String idToken) throws IOException, FirebaseAuthException {
+    public Photo updatePhoto(@RequestBody Photo photo,@RequestHeader(name="idToken") String idToken) throws IOException, FirebaseAuthException,InvalidIdToken {
 
         FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
         if(firebaseUser!=null){
             return photoService.updatePhotoById(photo);
         }
         else
-            return null;
 
+            throw new InvalidIdToken();
 
 
     }
 
     @DeleteMapping
-    public void deletePhoto(@RequestParam(name = "photoId") String photoId,@RequestHeader(name="idToken") String idToken) throws  IOException, FirebaseAuthException {
+    public void deletePhoto(@RequestParam(name = "photoId") String photoId,@RequestHeader(name="idToken") String idToken) throws  IOException, FirebaseAuthException,InvalidIdToken {
 
         FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
         if(firebaseUser!=null){
             photoService.deletePhoto(photoId);
 
         }
+        else
+            throw new InvalidIdToken();
 
 
 

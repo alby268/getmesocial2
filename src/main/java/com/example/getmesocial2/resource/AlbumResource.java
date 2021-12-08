@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import com.example.getmesocial2.service.FirebaseService;
 
 import com.google.firebase.auth.FirebaseAuthException;
+import com.example.getmesocial2.exception.InvalidIdToken;
+
 
 
 import java.io.IOException;
@@ -26,16 +28,17 @@ public class AlbumResource {
     private FirebaseService firebaseService;
 
     @PostMapping
-    public Album saveAlbum(@RequestBody Album album,@RequestHeader(name="idToken") String idToken) throws  IOException, FirebaseAuthException {
+    public Album saveAlbum(@RequestBody Album album,@RequestHeader(name="idToken") String idToken) throws  IOException,InvalidIdToken, FirebaseAuthException {
 
         FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
         if(firebaseUser!=null){
+
+            album.setCreatedBy(firebaseUser.getEmail());
             return  albumService.saveAlbum(album);
 
         }
         else
-            return null;
-
+            throw new InvalidIdToken();
     }
 
 
@@ -47,7 +50,7 @@ public class AlbumResource {
 
 
     @PutMapping
-    public Album updateAlbum(@RequestBody Album album,@RequestHeader(name="idToken") String idToken) throws IOException, FirebaseAuthException {
+    public Album updateAlbum(@RequestBody Album album,@RequestHeader(name="idToken") String idToken) throws IOException, FirebaseAuthException,InvalidIdToken{
 
         FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
         if(firebaseUser!=null){
@@ -55,17 +58,20 @@ public class AlbumResource {
 
         }
         else
-            return null;
+            throw new InvalidIdToken();
     }
 
     @DeleteMapping
-    public void deleteAlbum(@RequestParam(name = "albumId") String albumId,@RequestHeader(name="idToken") String idToken) throws  IOException, FirebaseAuthException {
+    public void deleteAlbum(@RequestParam(name = "albumId") String albumId,@RequestHeader(name="idToken") String idToken) throws  IOException, FirebaseAuthException,InvalidIdToken {
 
         FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
         if(firebaseUser!=null){
              albumService.deleteAlbum(albumId);
 
 
+        }
+        else{
+            throw new InvalidIdToken();
         }
 
 

@@ -10,6 +10,8 @@ import com.example.getmesocial2.service.FirebaseService;
 import com.example.getmesocial2.model.FirebaseUser;
 
 import com.google.firebase.auth.FirebaseAuthException;
+import com.example.getmesocial2.exception.InvalidIdToken;
+
 
 import java.io.IOException;
 import java.util.List;
@@ -25,14 +27,15 @@ public class CommentResource {
     private FirebaseService firebaseService;
 
     @PostMapping
-    public Comment saveComment(@RequestBody Comment comment,@RequestHeader(name="idToken") String idToken) throws IOException, FirebaseAuthException {
+    public Comment saveComment(@RequestBody Comment comment,@RequestHeader(name="idToken") String idToken) throws IOException,InvalidIdToken
+    ,FirebaseAuthException {
 
         FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
         if(firebaseUser!=null){
             return commentService.saveComment(comment);
         }
         else
-            return null;
+            throw new InvalidIdToken();
     }
 
 
@@ -47,7 +50,7 @@ public class CommentResource {
 
 
     @PutMapping
-    public Comment updateComment(@RequestBody Comment comment,@RequestHeader(name="idToken") String idToken) throws  IOException, FirebaseAuthException {
+    public Comment updateComment(@RequestBody Comment comment,@RequestHeader(name="idToken") String idToken) throws  IOException, FirebaseAuthException ,InvalidIdToken{
 
 
         FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
@@ -55,19 +58,21 @@ public class CommentResource {
             return commentService.updateCommentById(comment);
         }
         else
-            return null;
+            throw new InvalidIdToken();
     }
 
 
 
 
     @DeleteMapping
-    public void deleteComment(@RequestParam(name = "commentId") String commentId,@RequestHeader(name="idToken") String idToken) throws  IOException, FirebaseAuthException {
+    public void deleteComment(@RequestParam(name = "commentId") String commentId,@RequestHeader(name="idToken") String idToken) throws  IOException, FirebaseAuthException,InvalidIdToken {
         FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
         if(firebaseUser!=null){
             commentService.deleteComment(commentId);
 
         }
+        else
+            throw new InvalidIdToken();
 
 
 

@@ -2,6 +2,7 @@ package com.example.getmesocial2.model;
 import com.example.getmesocial2.validation.ValidName;
 import org.hibernate.validator.constraints.Length;
 
+
 import java.util.Date;
 
 public class Comment {
