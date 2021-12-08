@@ -7,6 +7,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 public class User {
+
+
+
     @Id
 
     private String id;
@@ -19,6 +22,8 @@ public class User {
 
     @NotEmpty
     private String profilePhotoUrl;
+
+
 
     public String getId() {
         return id;
@@ -51,4 +56,14 @@ public class User {
     public void setProfilePhotoUrl(String profilePhotoUrl) {
         this.profilePhotoUrl = profilePhotoUrl;
     }
+
+    public User(String id, String name, String email, String profilePhotoUrl) {
+
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.profilePhotoUrl = profilePhotoUrl;
+
+    }
 }
+

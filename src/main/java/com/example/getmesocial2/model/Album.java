@@ -29,6 +29,14 @@ public class Album {
         return name;
     }
 
+    public Album(String id, String name, String coverPhotoUrl, String createdBy, Date dateCreated) {
+        this.id = id;
+        this.name = name;
+        this.coverPhotoUrl = coverPhotoUrl;
+        this.createdBy = createdBy;
+        this.dateCreated = dateCreated;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

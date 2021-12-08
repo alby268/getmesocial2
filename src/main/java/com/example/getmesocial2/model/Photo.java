@@ -5,6 +5,15 @@ import java.util.Date;
 
 public class Photo {
     private String id;
+
+    public Photo(String id, String albumId, String photoUrl, String createdBy, Date dateCreated) {
+        this.id = id;
+        this.albumId = albumId;
+        this.photoUrl = photoUrl;
+        this.createdBy = createdBy;
+        this.dateCreated = dateCreated;
+    }
+
     private String albumId;
 
     public String getId() {

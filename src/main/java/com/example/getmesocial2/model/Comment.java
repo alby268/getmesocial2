@@ -53,6 +53,14 @@ public class Comment {
         this.dateCreated = dateCreated;
     }
 
+    public Comment(String id, String photoId, String message, String createdBy, Date dateCreated) {
+        this.id = id;
+        this.photoId = photoId;
+        this.message = message;
+        this.createdBy = createdBy;
+        this.dateCreated = dateCreated;
+    }
+
     @ValidName
     private String createdBy;
     private Date dateCreated;
