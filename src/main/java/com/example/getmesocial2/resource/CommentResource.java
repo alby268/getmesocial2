@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins="http://localhost:4200/")
+@CrossOrigin(origins="http://frontendbucket7.s3-website.us-east-2.amazonaws.com/")
 
 @RequestMapping("/api/comments")
 public class CommentResource {

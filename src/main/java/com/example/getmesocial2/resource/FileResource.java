@@ -24,7 +24,7 @@ import com.example.getmesocial2.exception.InvalidIdToken;
 
 
 @RestController
-@CrossOrigin(origins="http://localhost:4200/")
+@CrossOrigin(origins="http://frontendbucket7.s3-website.us-east-2.amazonaws.com/")
 
 @RequestMapping("api/files")
 public class FileResource {

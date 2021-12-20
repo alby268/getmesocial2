@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
-@CrossOrigin(origins="http://localhost:4200/")
+@CrossOrigin(origins="http://frontendbucket7.s3-website.us-east-2.amazonaws.com/")
 
 @RequestMapping("/api/users")
 public class UserResource {
