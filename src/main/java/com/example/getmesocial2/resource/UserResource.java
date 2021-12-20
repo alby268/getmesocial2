@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
+@CrossOrigin(origins="http://localhost:4200/")
+
 @RequestMapping("/api/users")
 public class UserResource {
 
@@ -30,20 +32,17 @@ public class UserResource {
     private FirebaseService firebaseService;
 
     @PostMapping
-    public User saveUser(@RequestBody @Valid User user,@RequestHeader(name="idToken") String idToken) throws RestrictedNameException,InvalidIdToken,IOException, FirebaseAuthException {
+    public User saveUser(@RequestBody @Valid User user) throws RestrictedNameException,InvalidIdToken,IOException, FirebaseAuthException {
         if(user.getName().equalsIgnoreCase("root")){
             throw new RestrictedNameException();
         }
 
         else {
 
-            FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
-            if(firebaseUser!=null){
+
                 return userService.saveUser(user);
 
-            }
-            else
-                throw new InvalidIdToken();
+
 
 
         }
@@ -87,13 +86,59 @@ public class UserResource {
 
 
     @GetMapping("/find")
-    public User getById(@RequestParam(name = "id") String id) throws RestrictedInfoException {
-        if(id.equalsIgnoreCase("abc")){
-            throw new RestrictedInfoException();
+    public User getById(@RequestParam(name = "id") String id,@RequestHeader(name="idToken") String idToken) throws RestrictedInfoException,IOException, FirebaseAuthException,InvalidIdToken {
+
+        FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
+
+        if(firebaseUser!=null){
+
+            if(id.equalsIgnoreCase("abc")){
+                throw new RestrictedInfoException();
+            }
+            return userService.getById(id);
+
         }
-        return userService.getById(id);
+        else
+            throw new InvalidIdToken();
+
+
+
+
 
     }
+
+
+    @GetMapping("/findloginuser")
+    public User getLoginUser(@RequestHeader(name="idToken") String idToken) throws RestrictedInfoException,IOException, FirebaseAuthException,InvalidIdToken {
+
+        FirebaseUser firebaseUser = firebaseService.authenticate(idToken);
+
+        if(firebaseUser!=null){
+
+
+
+
+              String email = firebaseUser.getEmail();
+            return userService.getByEmail(email);
+
+        }
+        else
+            throw new InvalidIdToken();
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,6 +1,7 @@
 package com.example.getmesocial2.model;
 
 import com.example.getmesocial2.validation.ValidName;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.Email;
@@ -11,7 +12,6 @@ public class User {
 
 
     @Id
-
     private String id;
 
     private String name;
@@ -22,7 +22,6 @@ public class User {
 
     @NotEmpty
     private String profilePhotoUrl;
-
 
 
     public String getId() {
@@ -58,12 +57,10 @@ public class User {
     }
 
     public User(String id, String name, String email, String profilePhotoUrl) {
-
         this.id = id;
         this.name = name;
         this.email = email;
         this.profilePhotoUrl = profilePhotoUrl;
-
     }
 }
 

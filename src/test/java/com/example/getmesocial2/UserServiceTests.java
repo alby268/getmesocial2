@@ -2,6 +2,7 @@ package com.example.getmesocial2;
 
 import com.example.getmesocial2.model.User;
 import com.example.getmesocial2.service.UserService;
+import org.bson.types.ObjectId;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +23,9 @@ public class UserServiceTests {
 	@Before
 	public void saveUser(){
 
-		userService.saveUser(new User("1234","albin","albin@gmail.com","h"));
+		 String id = null;
+
+		userService.saveUser(new User(id,"albin","albin@gmail.com","h"));
 	}
 
 	@Test

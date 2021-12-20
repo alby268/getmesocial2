@@ -1,12 +1,15 @@
 package com.example.getmesocial2.model;
 
 import com.example.getmesocial2.validation.ValidName;
+import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.annotation.Id;
 
 import java.util.Date;
 
 public class Album {
 
+    @Id
     private String id;
 
     @Length(max = 10)
@@ -16,6 +19,15 @@ public class Album {
     private String createdBy;
     private Date dateCreated;
 
+
+
+    public Album(String id, String name, String coverPhotoUrl, String createdBy, Date dateCreated) {
+        this.id = id;
+        this.name = name;
+        this.coverPhotoUrl = coverPhotoUrl;
+        this.createdBy = createdBy;
+        this.dateCreated = dateCreated;
+    }
 
     public String getId() {
         return id;
@@ -29,13 +41,7 @@ public class Album {
         return name;
     }
 
-    public Album(String id, String name, String coverPhotoUrl, String createdBy, Date dateCreated) {
-        this.id = id;
-        this.name = name;
-        this.coverPhotoUrl = coverPhotoUrl;
-        this.createdBy = createdBy;
-        this.dateCreated = dateCreated;
-    }
+
 
     public void setName(String name) {
         this.name = name;

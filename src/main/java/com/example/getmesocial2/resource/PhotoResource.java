@@ -17,7 +17,10 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins="http://localhost:4200/")
+
 @RequestMapping("/api/photos")
+
 public class PhotoResource {
 
     @Autowired
@@ -77,11 +80,21 @@ public class PhotoResource {
     }
 
     @GetMapping("/find")
+    public List<Photo> getAlbumId(@RequestParam(name = "id") String id){
+
+        return  photoService.getByAlbumId(id);
+
+    }
+
+    @GetMapping("/findbyid")
     public List<Photo> getById(@RequestParam(name = "id") String id){
 
         return  photoService.getById(id);
 
     }
+
+
+
 
 
 

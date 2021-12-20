@@ -1,13 +1,17 @@
 package com.example.getmesocial2.model;
 import com.example.getmesocial2.validation.ValidName;
+import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.annotation.Id;
 
 
 import java.util.Date;
 
 public class Comment {
 
+    @Id
     private String id;
+
     private String photoId;
 
     @Length(min = 5)
@@ -52,6 +56,7 @@ public class Comment {
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
+
 
     public Comment(String id, String photoId, String message, String createdBy, Date dateCreated) {
         this.id = id;

@@ -5,6 +5,7 @@ import com.example.getmesocial2.model.FirebaseUser;
 import com.example.getmesocial2.model.User;
 import com.example.getmesocial2.service.AlbumService;
 import com.google.firebase.auth.FirebaseAuthException;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.example.getmesocial2.service.FirebaseService;
@@ -18,6 +19,8 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
+
+@CrossOrigin(origins="http://localhost:4200/")
 @RequestMapping("/api/albums")
 public class AlbumResource {
 
@@ -84,5 +87,10 @@ public class AlbumResource {
         return  albumService.getById(id);
 
     }
+
+
+
+
+
 
 }

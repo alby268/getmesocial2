@@ -37,4 +37,11 @@ public class CommentService {
 
         return commentRepository.findAllById(id);
     }
+
+    public List<Comment> getByPhotoId(String photoId) {
+
+        return commentRepository.findByPhotoId(photoId);
+    }
+
+
 }
